@@ -6,7 +6,8 @@ import java.lang.Math;
 
 public class WordsGenerator {
 
-	String chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890,.;:()[]{}!?<>@#$%^&*";
+	//String chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890,.;:()[]{}!?<>@#$%^&*";
+	String chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
 	String words;
 	Random random = new Random();
 	static final int WORDLENGTH = 5;
