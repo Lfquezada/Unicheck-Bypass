@@ -43,7 +43,7 @@ public class Bypasser {
 			PDDocument document = PDDocument.load(new File(inputFileName));
 			PDFRenderer pdfRenderer = new PDFRenderer(document);
             for (int page = 0; page < document.getNumberOfPages(); ++page) {
-                BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 500, ImageType.RGB);
+                BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB);
                 String fileName = "image-" + page + ".png";
                 ImageIOUtil.writeImage(bim, fileName, 300);
             }
@@ -128,8 +128,7 @@ public class Bypasser {
 
 		}
 	}
-
-
+	
 	private static BufferedImage resize(BufferedImage img, int height, int width) {
         Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -138,7 +137,6 @@ public class Bypasser {
         g2d.dispose();
         return resized;
     }
-
 }
 
 
