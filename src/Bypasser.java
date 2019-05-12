@@ -31,16 +31,18 @@ public class Bypasser {
 		String inputFileName = args[0] + ".pdf";
 		String newFileName = args[0] + "-BYPASSED.pdf";
 		WordsGenerator wordsGenerator = new WordsGenerator();
+		int totalNumOfPages=0;
 		String line;
 
 		try {
 
 			// System.out.println(args[0]);
 
-			// convertir pdf dado a imagen
+// convertir pdf dado a imagenes
 			System.out.println("\n<> Converting pdf...");
 
 			PDDocument document = PDDocument.load(new File(inputFileName));
+			totalNumOfPages = document.getNumberOfPages();
 			PDFRenderer pdfRenderer = new PDFRenderer(document);
             for (int page = 0; page < document.getNumberOfPages(); ++page) {
                 BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB);
@@ -49,36 +51,53 @@ public class Bypasser {
             }
             document.close();
 
-            // resize image to bounds of pdf
+// resize images to bounds of pdf
             System.out.println("<> Resizing pdf...");
 
-            File input = new File("image-0.png");
-	        BufferedImage image = ImageIO.read(input);
+            String imgName;
 
-	        BufferedImage resized = resize(image, 792, 612);
+            for (int img=0; img < totalNumOfPages; img++) {
+            	imgName = "image-" + img + ".png";
+            	File input = new File(imgName);
+            	BufferedImage image = ImageIO.read(input);
+	        	BufferedImage resized = resize(image, 792, 612);
+	        	File output = new File(imgName);
+		        ImageIO.write(resized, "png", output);
+            }
 
-	        File output = new File("image-0.png");
-	        ImageIO.write(resized, "png", output);
-
-            // escritura del archivo nuevo
+// escritura del archivo nuevo con las imagenes
             System.out.println("<> Creating new pdf...");
 
 			PDDocument doc = new PDDocument();
-			PDPage page1 = new PDPage();
-			doc.addPage(page1);
+			ArrayList<PDPage> pages = new ArrayList<PDPage>();
 
-			// insertar nueva imagen en el doc
+			for (int x=0; x<totalNumOfPages; x++) {
+				pages.add(new PDPage());
+			}
 
-			PDImageXObject pdImage = PDImageXObject.createFromFile("image-0.png",doc);
-            PDPageContentStream contents = new PDPageContentStream(doc, page1);
-            contents.drawImage(pdImage, 0, 0);
-            contents.close();
+			for (int y=0; y<totalNumOfPages; y++) {
+				doc.addPage(pages.get(y));
+			}
 
+			imgName = "";
+			PDImageXObject pdImage;
+			PDPageContentStream contents;
+
+// insertar imagenes por pagina
+
+			for (int imgNum=0; imgNum<totalNumOfPages; imgNum++) {
+				imgName = "image-" + imgNum + ".png";
+				pdImage = PDImageXObject.createFromFile(imgName,doc);
+	            contents = new PDPageContentStream(doc, pages.get(imgNum));
+	            contents.drawImage(pdImage, 0, 0);
+	            contents.close();
+			}
 			
-			PDPage page2 = new PDPage();
-			doc.addPage(page2);
+// putting 40 random words
+			PDPage finalPage = new PDPage();
+			doc.addPage(finalPage);
 
-			PDPageContentStream content = new PDPageContentStream(doc, page2);
+			PDPageContentStream content = new PDPageContentStream(doc, finalPage);
 
 			System.out.println("<> Generating unique ID...");
 
@@ -120,7 +139,7 @@ public class Bypasser {
 			doc.save(newFileName);
 			doc.close();
 
-			System.out.println("<> PDF finished...\n");
+			System.out.println("<> PDF finished successfully.\n");
 
 		} catch(Exception e) {
 
