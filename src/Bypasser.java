@@ -28,8 +28,10 @@ public class Bypasser {
 
 	public static void main(String args[]) {
 
-		String inputFileName = args[0] + ".pdf";
-		String newFileName = args[0] + "-BYPASSED.pdf";
+		args[1] = args[1].replace(".pdf","");
+
+		String inputFileName = args[1] + ".pdf";
+		String newFileName = args[1] + "-BYPASSED.pdf";
 		WordsGenerator wordsGenerator = new WordsGenerator();
 		int totalNumOfPages=0;
 		String line;
@@ -103,7 +105,7 @@ public class Bypasser {
 
 			content.beginText();
 			content.setFont(PDType1Font.TIMES_ROMAN, 12);
-			content.setNonStrokingColor(Color.WHITE);
+			content.setNonStrokingColor(Color.BLUE);
 			content.newLineAtOffset(50, 60);
 			line = wordsGenerator.getWords(10);
 			content.showText(line);
@@ -111,7 +113,7 @@ public class Bypasser {
 			
 			content.beginText();
 			content.setFont(PDType1Font.TIMES_ROMAN, 12);
-			content.setNonStrokingColor(Color.WHITE);
+			content.setNonStrokingColor(Color.BLUE);
 			content.newLineAtOffset(50, 50);
 			line = wordsGenerator.getWords(10);
 			content.showText(line);
@@ -119,7 +121,7 @@ public class Bypasser {
 
 			content.beginText();
 			content.setFont(PDType1Font.TIMES_ROMAN, 12);
-			content.setNonStrokingColor(Color.WHITE);
+			content.setNonStrokingColor(Color.BLUE);
 			content.newLineAtOffset(50, 40);
 			line = wordsGenerator.getWords(10);
 			content.showText(line);
@@ -127,7 +129,7 @@ public class Bypasser {
 
 			content.beginText();
 			content.setFont(PDType1Font.TIMES_ROMAN, 12);
-			content.setNonStrokingColor(Color.WHITE);
+			content.setNonStrokingColor(Color.BLUE);
 			content.newLineAtOffset(50, 30);
 			line = wordsGenerator.getWords(10);
 			content.showText(line);
